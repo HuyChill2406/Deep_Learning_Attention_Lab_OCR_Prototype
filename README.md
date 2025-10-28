@@ -32,3 +32,11 @@ Huấn luyện: Adam/SGD, early-stopping, checkpoint “best”.
 Attention: MQA/GQA nhanh hơn Multi-Head chuẩn khi seq_len dài & n_heads lớn.
 
 OCR: độ chính xác chuỗi (CER/WER) cải thiện khi tăng augment + beam search.
+
+📝 Ghi chú kỹ thuật
+
+Đặt seed để tái lập.
+
+Log thời gian/bộ nhớ khi so sánh attention.
+
+Với OCR: thêm augmentation (affine/gaussian), beam search, vocab chuyên biệt.
