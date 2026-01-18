@@ -1,0 +1,85 @@
+# Deep Learning Assignments: Attention (LLMs) + OCR (ResNet50 + Transformer Decoder)
+
+This repository contains a single Jupyter Notebook **`DL_522h0131_FINAL.ipynb`** with two main parts:
+
+1. **Assignment 1 — Deep dive into Attention mechanisms in Large Language Models (LLMs)**
+2. **Assignment 2 — Build an OCR (text recognition) model combining CNN and Transformer Decoder**
+   - **EasyOCR** for text detection + optional perspective rectification
+   - **ResNet-50** as the image encoder
+   - **Transformer Decoder** for sequence-based text recognition
+   - Training/validation loop + inference demo + attention visualization
+
+---
+
+## Notebook Overview
+
+### Part 1 — Attention in LLMs (Theory)
+The notebook provides a detailed, structured explanation of modern attention variants used in Transformer/LLM architectures, including:
+- Self-Attention (intuition, computation, pros/cons, comparison with original Transformer)
+- Modern variants (e.g., Multi-Query Attention, etc.)
+- Complexity discussion and practical notes
+
+> This part is mainly theoretical and includes illustrations and comparisons.
+
+### Part 2 — OCR with CNN Encoder + Transformer Decoder (Implementation)
+
+**Goal:** recognize text from images using a neural OCR pipeline.
+
+#### Key Components
+- **Dataset:** loaded from Hugging Face Datasets:
+  - `priyank-m/MJSynth_text_recognition` (train/val subsets)
+- **Preprocessing**
+  - Text normalization (Unicode normalization, remove accents, remove special symbols)
+  - Character-level vocabulary built from the training split
+  - Convert text → token IDs with special tokens: `<PAD> <UNK> <SOS> <EOS>`
+  - Image transforms + augmentation for training (rotation, affine shear, perspective, color jitter, blur)
+- **Model**
+  - **ResNet-50 encoder** (optionally frozen at first, then unfrozen later)
+  - Feature projection `2048 → 512`
+  - **Transformer Decoder** (embedding + sinusoidal positional encoding + stacked decoder layers)
+  - Teacher forcing (probability scheduled by epoch), causal mask
+- **Training**
+  - Optimizer: `AdamW`
+  - Scheduler: `OneCycleLR`
+  - Mixed precision: `GradScaler`
+  - Gradient clipping
+  - Early stopping (patience = 8 epochs)
+  - Best checkpoint saved as `best.pt`
+- **Inference**
+  - Greedy decoding (character-level)
+  - Optional wrapper: **EasyOCR detector + rectified crops + recognizer**
+- **Visualization**
+  - Loss/accuracy curves
+  - Attention heatmaps over the encoded visual sequence (mean/sum aggregation)
+
+---
+
+## Requirements
+
+- Python 3.9+
+- Recommended: GPU runtime (Google Colab or local CUDA)
+
+Main libraries used in the notebook:
+- `torch`, `torchvision`
+- `numpy`, `opencv-python`
+- `matplotlib`
+- `datasets` (Hugging Face Datasets):
+https://huggingface.co/datasets/fancyzhx/ag_news
+https://huggingface.co/datasets/priyank-m/MJSynth_text_recognition
+- `easyocr`
+- `Pillow`
+
+---
+
+## How to Run
+
+### Option A — Google Colab (recommended)
+1. Upload `DL_522h0131_FINAL.ipynb` to Colab
+2. Switch runtime to **GPU** (optional but strongly recommended)
+3. Run cells from top to bottom
+
+### Option B — Local
+1. Create an environment and install dependencies (example):
+   ```bash
+   pip install torch torchvision torchaudio
+   pip install numpy opencv-python matplotlib pillow datasets easyocr
