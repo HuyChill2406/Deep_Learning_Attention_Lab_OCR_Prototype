@@ -104,87 +104,133 @@ pip install torch torchvision torchaudio
 pip install numpy opencv-python matplotlib pillow datasets easyocr
 jupyter notebook DL_522h0131_FINAL.ipynb
 
+Deep Learning Assignments: Attention (LLMs) & OCR with ResNet50 + Transformer
 
-# Deep Learning Assignments: Attention (LLMs) + OCR (ResNet50 + Transformer Decoder)
+This repository contains the Jupyter Notebook DL_522h0131_FINAL.ipynb, which includes two main parts:
 
-This repository contains a single Jupyter Notebook **`DL_522h0131_FINAL.ipynb`** with two main parts:
+Assignment 1 – In-depth study of Attention mechanisms in Large Language Models (LLMs)
 
-1. **Assignment 1 — Deep dive into Attention mechanisms in Large Language Models (LLMs)**
-2. **Assignment 2 — Build an OCR (text recognition) model combining CNN and Transformer Decoder**
-   - **EasyOCR** for text detection + optional perspective rectification
-   - **ResNet-50** as the image encoder
-   - **Transformer Decoder** for sequence-based text recognition
-   - Training/validation loop + inference demo + attention visualization
+Assignment 2 – OCR system using a CNN Encoder and Transformer Decoder
 
----
+EasyOCR for text detection
 
-## Notebook Overview
+ResNet-50 as the image encoder
 
-### Part 1 — Attention in LLMs (Theory)
-The notebook provides a detailed, structured explanation of modern attention variants used in Transformer/LLM architectures, including:
-- Self-Attention (intuition, computation, pros/cons, comparison with original Transformer)
-- Modern variants (e.g., Multi-Query Attention, etc.)
-- Complexity discussion and practical notes
+Transformer Decoder for sequence-based text recognition
 
-> This part is mainly theoretical and includes illustrations and comparisons.
+Complete training, evaluation, and inference pipeline
 
-### Part 2 — OCR with CNN Encoder + Transformer Decoder (Implementation)
+Notebook Overview
+Part 1 – Attention in LLMs (Theory)
 
-**Goal:** recognize text from images using a neural OCR pipeline.
+This section provides a structured and in-depth explanation of modern Attention mechanisms, including:
 
-#### Key Components
-- **Dataset:** loaded from Hugging Face Datasets:
-  - `priyank-m/MJSynth_text_recognition` (train/val subsets)
-- **Preprocessing**
-  - Text normalization (Unicode normalization, remove accents, remove special symbols)
-  - Character-level vocabulary built from the training split
-  - Convert text → token IDs with special tokens: `<PAD> <UNK> <SOS> <EOS>`
-  - Image transforms + augmentation for training (rotation, affine shear, perspective, color jitter, blur)
-- **Model**
-  - **ResNet-50 encoder** (optionally frozen at first, then unfrozen later)
-  - Feature projection `2048 → 512`
-  - **Transformer Decoder** (embedding + sinusoidal positional encoding + stacked decoder layers)
-  - Teacher forcing (probability scheduled by epoch), causal mask
-- **Training**
-  - Optimizer: `AdamW`
-  - Scheduler: `OneCycleLR`
-  - Mixed precision: `GradScaler`
-  - Gradient clipping
-  - Early stopping (patience = 8 epochs)
-  - Best checkpoint saved as `best.pt`
-- **Inference**
-  - Greedy decoding (character-level)
-  - Optional wrapper: **EasyOCR detector + rectified crops + recognizer**
-- **Visualization**
-  - Loss/accuracy curves
-  - Attention heatmaps over the encoded visual sequence (mean/sum aggregation)
+Self-Attention: intuition, formulation, strengths, and limitations
 
----
+Computational complexity and scalability analysis
 
-## Requirements
+Comparison between simplified attention and standard Transformer attention
 
-- Python 3.9+
-- Recommended: GPU runtime (Google Colab or local CUDA)
+Overview of modern Attention variants used in LLMs
 
-Main libraries used in the notebook:
-- `torch`, `torchvision`
-- `numpy`, `opencv-python`
-- `matplotlib`
-- `datasets` (Hugging Face Datasets)
-- `easyocr`
-- `Pillow`
+This part is theoretical, supported by diagrams and comparisons.
 
----
+Part 2 – OCR with ResNet-50 Encoder and Transformer Decoder
 
-## How to Run
+Objective: build a sequence-to-sequence OCR system for text recognition from images.
 
-### Option A — Google Colab (recommended)
-1. Upload `DL_522h0131_FINAL.ipynb` to Colab
-2. Switch runtime to **GPU** (optional but strongly recommended)
-3. Run cells from top to bottom
+Dataset
 
-### Option B — Local
-1. Create an environment and install dependencies (example):
-   ```bash
-   pip install torch torchvision torchaudio
-   pip install numpy opencv-python matplotlib pillow datasets easyocr
+Hugging Face dataset:
+
+priyank-m/MJSynth_text_recognition
+
+Subsampled for efficient training.
+
+Data Preprocessing
+
+Text normalization:
+
+Unicode normalization
+
+Accent and special character removal
+
+Character-level vocabulary construction
+
+Encoding text sequences with special tokens:
+
+<PAD>, <UNK>, <SOS>, <EOS>
+
+Image preprocessing and augmentation for training
+
+Model Architecture
+
+Encoder: ResNet-50 for visual feature extraction
+
+Feature projection from 2048 → 512
+
+Decoder: Transformer Decoder with positional encoding and causal masking
+
+Teacher forcing with scheduled probability decay
+
+Training
+
+Optimizer: AdamW
+
+Scheduler: OneCycleLR
+
+Mixed precision training
+
+Gradient clipping
+
+Early stopping (patience = 8)
+
+Best model checkpoint saved as best.pt
+
+Inference
+
+Greedy character-level decoding
+
+Integration with EasyOCR for detection + recognition
+
+Visualization
+
+Training and validation curves
+
+OCR prediction samples
+
+Attention heatmap visualization
+
+Requirements
+
+Python 3.9+
+
+GPU recommended
+
+Main libraries:
+
+PyTorch
+
+OpenCV
+
+NumPy
+
+Matplotlib
+
+Hugging Face Datasets
+
+EasyOCR
+
+How to Run
+Option 1: Google Colab (recommended)
+
+Upload the notebook
+
+Enable GPU runtime
+
+Run cells sequentially
+
+Option 2: Local
+pip install torch torchvision torchaudio
+pip install numpy opencv-python matplotlib pillow datasets easyocr
+jupyter notebook DL_522h0131_FINAL.ipynb
