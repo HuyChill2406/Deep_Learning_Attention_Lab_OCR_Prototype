@@ -104,6 +104,7 @@ pip install torch torchvision torchaudio
 pip install numpy opencv-python matplotlib pillow datasets easyocr
 jupyter notebook DL_522h0131_FINAL.ipynb
 
+
 # Deep Learning Assignments: Attention (LLMs) + OCR (ResNet50 + Transformer Decoder)
 
 This repository contains a single Jupyter Notebook **`DL_522h0131_FINAL.ipynb`** with two main parts:
